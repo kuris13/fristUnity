@@ -8,21 +8,56 @@ public class InputManager : MonoBehaviour
 
     public float Speed;
 
-    private void Awake()
-    {
-        //player = GameObject.FindGameObjectWithTag("Player");
-    }
+    Vector3 cameraOffset;
+
+    public Transform cameraCenter;
+    public Transform temp;
+
+    public float xSpeed = 220f;
+    public float ySpeed = 100f;
+
+
 
     private void Start()
     {
         Speed = 2f;
+
     }
 
     private void Update()
     {
-        KeyboardInput();
-        if(!GameManager.GetInstance.MouseMode)
+        if (!GameManager.GetInstance.MouseMode)
+        {
             MouseInput();
+            LookAround();
+            
+        }
+
+        KeyboardInput();
+
+
+
+    }
+
+    void LookAround()
+    {
+        if (!GameManager.GetInstance.MouseMode)
+        {
+            Vector2 mouseDleta = new Vector2(Input.GetAxis("Mouse X"),
+                Input.GetAxis("Mouse Y"));
+            Vector3 camAngle = cameraCenter.rotation.eulerAngles;
+
+            float x = camAngle.x - mouseDleta.y;
+
+            if (x < 180f)
+                x = Mathf.Clamp(x, -25f, 40f);
+            else
+                x = Mathf.Clamp(x, 335f, 415f);
+
+
+            cameraCenter.rotation = Quaternion.Euler(x,
+                camAngle.y + mouseDleta.x, camAngle.z);
+        }
     }
 
     void EnterMouseMode()
@@ -54,19 +89,44 @@ public class InputManager : MonoBehaviour
             GetComponent<PlayerFSM>().Attack(1);
         }
 
+
+
+
     }
 
     void KeyboardInput()
     {
+
         fHor = Input.GetAxis("Horizontal");
         float fVer = Input.GetAxis("Vertical");
 
-        if(fVer != 0)
+        if(fHor != 0 || fVer != 0)
         {
-            GetComponent<PlayerFSM>().MoveTo(fVer);
+            GetComponent<PlayerFSM>().MoveTo(fVer,fHor);
+
+            Vector3 lookForward = new Vector3(
+                cameraCenter.forward.x,
+                0f,
+                cameraCenter.forward.z).normalized;
+
+            Vector3 lookRight = new Vector3(
+                cameraCenter.right.x,
+                0f,
+                cameraCenter.right.z).normalized;
+
+            Vector3 moveDir = lookForward * fVer + lookRight * fHor;
+
+            lookForward = moveDir.normalized;
+
+            temp.forward = lookForward;
+            transform.position += moveDir * Time.deltaTime * 5f;
         }
-        if (fHor != 0)
-            GetComponent<PlayerFSM>().TurnTo(fHor);
+            
+
+            
+        
+        
+            //GetComponent<PlayerFSM>().TurnTo(fHor);
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -98,4 +158,7 @@ public class InputManager : MonoBehaviour
         }
         */
     }
+
+
+
 }

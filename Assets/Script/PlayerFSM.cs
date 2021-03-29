@@ -157,55 +157,34 @@ public class PlayerFSM : MonoBehaviour
 
     void MoveState()
     {
-        Move();
+        MoveStop();
 
         fVer = 0f;
         fHor = 0f;
     }
 
-    public void MoveStop()
-    {
-        ChangeState(State.Idle, PlayerAni.ANI_IDLE);
-        fVer = 0;
-    }
-
-    public void MoveTo(float _fVer)
+    public void MoveTo(float _fVer, float _fHor)
     {
         
         fVer = _fVer;
+        fHor = _fHor;
 
         ChangeState(State.Move, PlayerAni.ANI_WALK);
 
 
     }
 
-    void Move()
+    void MoveStop()
     {
-        transform.Translate(
-          0f,
-          0f,
-          fVer * Time.deltaTime * moveSpeed);
-
         if (currentState == State.Move &&
-            fVer == 0) 
+            fVer == 0 &&
+            fHor == 0) 
         {
             ChangeState(State.Idle, PlayerAni.ANI_IDLE);
         }
     }
 
-    public void TurnTo(float _fHor)
-    {
-        fHor = _fHor;
-        Turn();
-    }
-
-    void Turn()
-    {
-        Vector3 angle = transform.rotation.eulerAngles;
-        angle.y += Time.deltaTime * fHor * 120;
-
-        transform.rotation = Quaternion.Euler(angle);
-    }
+    
 
     private void Update()
     {

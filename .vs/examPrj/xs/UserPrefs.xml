@@ -1,16 +1,16 @@
 ﻿<Properties StartupConfiguration="{BE518495-22E3-6361-DE9F-4E0505D731CF}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/CameraControl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/InputManager.cs">
     <Files>
-      <File FileName="Assets/Script/CameraControl.cs" Line="15" Column="1" />
-      <File FileName="Assets/Script/PlayerAni.cs" Line="31" Column="6" />
-      <File FileName="Assets/Script/InputManager.cs" Line="24" Column="12" />
-      <File FileName="Assets/Script/PlayerFSM.cs" Line="112" Column="6" />
-      <File FileName="Assets/GameManager.cs" Line="15" Column="46" />
+      <File FileName="Assets/Script/CameraControl.cs" Line="13" Column="7" />
+      <File FileName="Assets/Script/PlayerAni.cs" Line="45" Column="2" />
+      <File FileName="Assets/Script/PlayerFSM.cs" />
+      <File FileName="Assets/GameManager.cs" />
+      <File FileName="Assets/Script/InputManager.cs" Line="48" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="ad63dc1d-daaf-44c7-8194-ffbafd5a9a6a" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="d6e9ac75-9909-4c24-9449-f84a7facde00" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
