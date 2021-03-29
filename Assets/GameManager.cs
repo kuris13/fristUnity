@@ -5,14 +5,19 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    private static GameManager Instance = null;
+    private static GameManager Instance;
 
     public static GameManager GetInstance
     {
         get
         {
-            if (Instance == null)
-                Instance = new GameManager();
+            if (!Instance)
+            {
+               Instance = FindObjectOfType(typeof(GameManager)) as GameManager;
+
+                if (Instance == null)
+                    Debug.Log("no Singleton obj");
+            }
             return Instance;
         }
     }
@@ -20,15 +25,21 @@ public class GameManager : MonoBehaviour
     public bool MouseMode = false;
 
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else if(Instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+    
 }

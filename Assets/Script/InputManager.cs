@@ -8,40 +8,43 @@ public class InputManager : MonoBehaviour
 
     public float Speed;
 
-    Vector3 cameraOffset;
-
     public Transform cameraCenter;
     public Transform temp;
 
     public float xSpeed = 220f;
     public float ySpeed = 100f;
 
+    Vector3 moveDir;
 
 
     private void Start()
     {
         Speed = 2f;
-
+        moveDir = new Vector3(
+                cameraCenter.forward.x,
+                0f,
+                cameraCenter.forward.z).normalized;
     }
 
     private void Update()
     {
-        if (!GameManager.GetInstance.MouseMode)
+        if (GameManager.GetInstance.MouseMode)
         {
-            MouseInput();
-            LookAround();
+            
+            
             
         }
-
+        LookAround();
+        
         KeyboardInput();
-
+        MouseInput();
 
 
     }
 
     void LookAround()
     {
-        if (!GameManager.GetInstance.MouseMode)
+        if (GameManager.GetInstance.MouseMode)
         {
             Vector2 mouseDleta = new Vector2(Input.GetAxis("Mouse X"),
                 Input.GetAxis("Mouse Y"));
@@ -100,25 +103,43 @@ public class InputManager : MonoBehaviour
         fHor = Input.GetAxis("Horizontal");
         float fVer = Input.GetAxis("Vertical");
 
-        if(fHor != 0 || fVer != 0)
-        {
-            GetComponent<PlayerFSM>().MoveTo(fVer,fHor);
-
-            Vector3 lookForward = new Vector3(
+        Vector3 lookForward = new Vector3(
                 cameraCenter.forward.x,
                 0f,
                 cameraCenter.forward.z).normalized;
 
-            Vector3 lookRight = new Vector3(
-                cameraCenter.right.x,
-                0f,
-                cameraCenter.right.z).normalized;
+        Vector3 lookRight = new Vector3(
+            cameraCenter.right.x,
+            0f,
+            cameraCenter.right.z).normalized;
 
-            Vector3 moveDir = lookForward * fVer + lookRight * fHor;
+        
+        
 
-            lookForward = moveDir.normalized;
+        if (fHor != 0 || fVer != 0)
+            moveDir = lookForward * fVer + lookRight * fHor;
 
-            temp.forward = lookForward;
+            // runMode
+            // 달릴 때는 앞뒤좌우로 다 이동 가능함!!
+
+            Vector3 runMode = moveDir.normalized;
+
+
+        //walkMode
+        //걸을 때는 앞으로만 걸을 수 있음
+        // 옆, 뒤는 다른 모션으로 모션을 다르게할 거임
+        //temp.forward = lookForward;
+
+        temp.forward = runMode;
+
+        if (fHor != 0 || fVer != 0)
+        {
+            GetComponent<PlayerFSM>().MoveTo(fVer,fHor);
+
+
+
+            
+
             transform.position += moveDir * Time.deltaTime * 5f;
         }
             
