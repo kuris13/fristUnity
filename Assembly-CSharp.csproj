@@ -64,15 +64,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\Script\CameraControl.cs" />
     <Compile Include="Assets\Script\InputManager.cs" />
     <Compile Include="Assets\Script\PlayerAni.cs" />
     <Compile Include="Assets\Script\PlayerFSM.cs" />
     <Compile Include="Assets\Script\Test.cs" />
+    <Compile Include="Assets\SkillMouse0.cs" />
+    <Compile Include="Assets\asset\fantasySpider\FSP_ContinuousRotation.cs" />
     <Compile Include="Assets\asset\unity-chan!\Unity-chan! Model\SplashScreen\Scripts\SplashScreen.cs" />
     <None Include="Assets\asset\AnimeGirls\BaseCharacter\BaseCharacter\Sourcefiles\Shader\DoubleSided.shader" />
     <None Include="Assets\asset\unity-chan!\Unity-chan! Model\Audio\Voice\unity-chan_voice_list.txt" />
     <None Include="Assets\asset\AnimeGirls\BaseCharacter\BaseCharacter\Sourcefiles\Shader\UnlitColor.shader" />
+    <None Include="Assets\Simple city plain\Read_me.txt" />
     <None Include="Assets\asset\unity-chan!\Unity-chan! Model\Art\Stage\Shader\AlphaMask.shader" />
     <Reference Include="UnityEngine">
       <HintPath>/Applications/Unity/Hub/Editor/2019.4.23f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

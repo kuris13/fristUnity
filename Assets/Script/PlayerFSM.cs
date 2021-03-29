@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class PlayerFSM : MonoBehaviour
 {
-
-
-
     public enum State
     {
         Idle,
         Move,
-        Attack,
+        AttackBlend,
         AttackWait,
-        Dead
+        Dead,
+        Jump
     }
 
 
@@ -22,10 +20,57 @@ public class PlayerFSM : MonoBehaviour
 
     PlayerAni myAni;
 
+    GameObject curEnemy;
+
     public float moveSpeed = 2f;
 
     public float fHor;
     public float fVer;
+
+    public float GlobalCoolTime = 2f;
+
+    public float CoolTimeTimer = 0f;
+
+    public float AttackWaitEndTime = 2f;
+
+    public int currentAtkNum;
+
+    public float curSkillNum;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        myAni = GetComponent<PlayerAni>();
+        ChangeState(State.Idle, PlayerAni.ANI_IDLE);
+    }
+
+    // Update is called once per frame
+    void UpdateState()
+    {
+        CoolTimeTimer += Time.deltaTime;
+
+        switch (currentState)
+        {
+            case State.Idle:
+                break;
+            case State.Move:
+                MoveState();
+                break;
+            case State.AttackBlend:
+                AttackState();
+                break;
+            case State.AttackWait:
+                AttackWait();
+                break;
+            case State.Dead:
+                break;
+            case State.Jump:
+                JumpState();
+                break;
+            default:
+                break;
+        }
+    }
 
     public bool IsMove()
     {
@@ -35,45 +80,87 @@ public class PlayerFSM : MonoBehaviour
         return false;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void AttackEnemy(GameObject enemy)
     {
-        myAni = GetComponent<PlayerAni>();
-        ChangeState(State.Idle, PlayerAni.ANI_IDLE);
+        if(curEnemy != null && curEnemy == enemy)
+        {
+            return;
+        }
+
+        curEnemy = enemy;
+
     }
 
     void ChangeState(State newState, int aniNum)
     {
-        if (currentState == newState)
-            return;
+        if(newState == State.AttackBlend)
+        {
+            myAni.ChangeAni(aniNum,curSkillNum);
+            currentState = newState;
+        }
+        else
+        {
+            if (currentState == newState)
+                return;
 
-        myAni.ChangeAni(aniNum);
-        currentState = newState;
+            myAni.ChangeAni(aniNum);
+            currentState = newState;
+        }
     }
 
-    // Update is called once per frame
-    void UpdateState()
+    void JumpState()
     {
-        switch(currentState)
+        // 공격 애니메이션이 최소한 실행은 됬는가?
+        if (myAni.JumpToIdle())
         {
-            case State.Idle:
-                break;
-            case State.Move:
-                Move();
-                
-                fVer = 0f;
-                fHor = 0f;
-                
-                break;
-            case State.Attack:
-                break;
-            case State.AttackWait:
-                break;
-            case State.Dead:
-                break;
-            default:
-                break;
+            if (AttackWaitEndTime > 0)
+                ChangeState(State.AttackWait, PlayerAni.ANI_ATKIDLE);
+            else
+                ChangeState(State.Idle, PlayerAni.ANI_IDLE);
         }
+    }
+    public void Jump()
+    {
+        ChangeState(State.Jump, PlayerAni.ANI_JUMP);
+    }
+
+    public void Attack(int SkillNum)
+    {
+        // 임시로 하드코딩해서 사용
+        // CoolTimeTimer가 2보다 클 때만 공격 모션이 나감
+        if (CoolTimeTimer > GlobalCoolTime)
+        {
+            curSkillNum = SkillNum;
+            ChangeState(State.AttackBlend, PlayerAni.ANI_ATTACKBLEND);
+            CoolTimeTimer = 0f;
+        }
+    }
+
+    void AttackState()
+    {
+        // 공격 애니메이션이 최소한 실행은 됬는가?
+        if(myAni.AttackToAttakWait())
+        {
+            ChangeState(State.AttackWait, PlayerAni.ANI_ATKIDLE);
+            AttackWaitEndTime = 2f;
+        }
+    }
+
+    void AttackWait()
+    {
+        AttackWaitEndTime -= Time.deltaTime;
+        if(AttackWaitEndTime < 0)
+        {
+            ChangeState(State.Idle, PlayerAni.ANI_IDLE);
+        }
+    }
+
+    void MoveState()
+    {
+        Move();
+
+        fVer = 0f;
+        fHor = 0f;
     }
 
     public void MoveStop()
@@ -92,12 +179,6 @@ public class PlayerFSM : MonoBehaviour
 
     }
 
-    public void TurnTo(float _fHor)
-    {
-        fHor = _fHor;
-        Turn();
-    }
-
     void Move()
     {
         transform.Translate(
@@ -110,6 +191,12 @@ public class PlayerFSM : MonoBehaviour
         {
             ChangeState(State.Idle, PlayerAni.ANI_IDLE);
         }
+    }
+
+    public void TurnTo(float _fHor)
+    {
+        fHor = _fHor;
+        Turn();
     }
 
     void Turn()
