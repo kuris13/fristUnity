@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     }
 
     public bool MouseMode = false;
-
+    public GameObject curTarget =null;
 
     private void Awake()
     {

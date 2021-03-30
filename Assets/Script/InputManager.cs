@@ -136,10 +136,6 @@ public class InputManager : MonoBehaviour
         {
             GetComponent<PlayerFSM>().MoveTo(fVer,fHor);
 
-
-
-            
-
             transform.position += moveDir * Time.deltaTime * 5f;
         }
             
@@ -159,6 +155,13 @@ public class InputManager : MonoBehaviour
             
             EnterMouseMode();
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+
+            EnterMouseMode();
+        }
+
         /*
         //손을 누르거나 땟을 때
         if (fVer < 1f && fVer > -1f && fVer != 0f)

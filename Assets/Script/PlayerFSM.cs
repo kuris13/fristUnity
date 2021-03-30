@@ -14,13 +14,12 @@ public class PlayerFSM : MonoBehaviour
         Jump
     }
 
-
     //idle을 기본상태로 지정
     public State currentState = State.Idle;
 
     PlayerAni myAni;
 
-    GameObject curEnemy;
+    Vector3 curTargetPos;
 
     public float moveSpeed = 2f;
 
@@ -72,6 +71,11 @@ public class PlayerFSM : MonoBehaviour
         }
     }
 
+    public void AttackEnemy(GameObject enemy)
+    {
+        
+    }
+
     public bool IsMove()
     {
         if(currentState == State.Move)
@@ -80,16 +84,7 @@ public class PlayerFSM : MonoBehaviour
         return false;
     }
 
-    public void AttackEnemy(GameObject enemy)
-    {
-        if(curEnemy != null && curEnemy == enemy)
-        {
-            return;
-        }
-
-        curEnemy = enemy;
-
-    }
+   
 
     void ChangeState(State newState, int aniNum)
     {
@@ -128,11 +123,41 @@ public class PlayerFSM : MonoBehaviour
     {
         // 임시로 하드코딩해서 사용
         // CoolTimeTimer가 2보다 클 때만 공격 모션이 나감
+
+        if (GameManager.GetInstance.curTarget != null && GameManager.GetInstance.curTarget.tag == "Enemy")
+        {
+            return;
+        }
+
+        curTargetPos = GameManager.GetInstance.curTarget.transform.position;
+
         if (CoolTimeTimer > GlobalCoolTime)
         {
-            curSkillNum = SkillNum;
-            ChangeState(State.AttackBlend, PlayerAni.ANI_ATTACKBLEND);
-            CoolTimeTimer = 0f;
+            switch(SkillNum)
+            {
+                case 0:
+                    Debug.DrawLine(curTargetPos, transform.position, Color.yellow,1f);
+                    if (Vector3.Distance(curTargetPos,transform.position) < 1.5f)
+                    {
+                        curSkillNum = SkillNum;
+                        ChangeState(State.AttackBlend, PlayerAni.ANI_ATTACKBLEND);
+                        CoolTimeTimer = 0f;
+                    }
+                    else
+                    {
+                        Debug.Log("거리가 너무 멉니다!!");
+                    }
+                    break;
+                case 1:
+                    curSkillNum = SkillNum;
+                    ChangeState(State.AttackBlend, PlayerAni.ANI_ATTACKBLEND);
+                    CoolTimeTimer = 0f;
+                    break;
+                default:
+                    break;
+            }
+
+            
         }
     }
 
