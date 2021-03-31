@@ -14,6 +14,7 @@ public class PlayerFSM : MonoBehaviour
         Jump
     }
 
+    #region Var
     //idle을 기본상태로 지정
     public State currentState = State.Idle;
 
@@ -36,12 +37,20 @@ public class PlayerFSM : MonoBehaviour
 
     public float curSkillNum;
 
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
         myAni = GetComponent<PlayerAni>();
         ChangeState(State.Idle, PlayerAni.ANI_IDLE);
     }
+    private void Update()
+    {
+        UpdateState();
+    }
+
+
 
     // Update is called once per frame
     void UpdateState()
@@ -71,21 +80,6 @@ public class PlayerFSM : MonoBehaviour
         }
     }
 
-    public void AttackEnemy(GameObject enemy)
-    {
-        
-    }
-
-    public bool IsMove()
-    {
-        if(currentState == State.Move)
-            return true;
-
-        return false;
-    }
-
-   
-
     void ChangeState(State newState, int aniNum)
     {
         if(newState == State.AttackBlend)
@@ -103,6 +97,142 @@ public class PlayerFSM : MonoBehaviour
         }
     }
 
+    #region Attack
+
+    //애니메이션의 이벤트로 추가될 함수
+    //몬스터에게 공격을 가한다
+    public void AttackCalculate()
+    {
+        if (GameManager.GetInstance.curTarget == null)
+        {
+            return;
+        }
+
+        if (!GameManager.GetInstance.curTarget.CompareTag("Enemy"))
+        {
+            //널이거나 적이 아니기 떄문에 공격 대상이 아니여서 공격을 안 함
+
+            return;
+        }
+        GameManager.GetInstance.curTarget.GetComponent<EnemyFSM>().ShowHitEffect();
+    }
+
+    public void Attack(int SkillNum)
+    {
+        // 임시로 하드코딩해서 사용
+        // CoolTimeTimer가 2보다 클 때만 공격 모션이 나감
+
+        // 공격이 실행됨
+        // 나의 타겟이 비어있는지 또한 에너미가 맞는지 확인함
+        if (GameManager.GetInstance.curTarget == null)
+        {
+            return;
+        }
+
+        if (!GameManager.GetInstance.curTarget.CompareTag("Enemy"))
+        {
+            //널이거나 적이 아니기 떄문에 공격 대상이 아니여서 공격을 안 함
+
+            return;
+        }
+        //여기부터는 공격 대상이 적임
+        else
+        {
+            //타겟의 위치를 기억함
+            curTargetPos = GameManager.GetInstance.curTarget.transform.position;
+
+            if (CoolTimeTimer > GlobalCoolTime)
+            {
+                switch (SkillNum)
+                {
+                    case 0:
+                        //1초동안 타겟의 위치와 내 위치를 선으로 보여줌
+                        Debug.DrawLine(curTargetPos, transform.position, Color.yellow, 1f);
+                        //만약 타겟과 나의 거리가 1.5 유니티 미터 사이라면 공격 실행
+                        float enemyDistance = Vector3.Distance(curTargetPos, transform.position);
+
+                        if (enemyDistance < 1.5f)
+                        {
+                            curSkillNum = SkillNum;
+                            ChangeState(State.AttackBlend, PlayerAni.ANI_ATTACKBLEND);
+                            CoolTimeTimer = 0f;
+                        }
+                        else
+                        {
+                            Debug.Log("거리가 너무 멉니다!! ->" + Vector3.Distance(curTargetPos, transform.position));
+                        }
+                        break;
+                    case 1:
+                        curSkillNum = SkillNum;
+                        ChangeState(State.AttackBlend, PlayerAni.ANI_ATTACKBLEND);
+                        CoolTimeTimer = 0f;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+    }
+
+    void AttackState()
+    {
+        // 공격 애니메이션이 최소한 실행은 됬는가?
+        if (myAni.AttackToAttakWait())
+        {
+            ChangeState(State.AttackWait, PlayerAni.ANI_ATKIDLE);
+            AttackWaitEndTime = 2f;
+        }
+    }
+
+    void AttackWait()
+    {
+        AttackWaitEndTime -= Time.deltaTime;
+        if (AttackWaitEndTime < 0)
+        {
+            ChangeState(State.Idle, PlayerAni.ANI_IDLE);
+        }
+    }
+    #endregion
+
+
+    #region MoveAndJump
+    public bool IsMove()
+    {
+        if (currentState == State.Move)
+            return true;
+
+        return false;
+    }
+    void MoveState()
+    {
+        MoveStop();
+
+        fVer = 0f;
+        fHor = 0f;
+    }
+
+    public void MoveTo(float _fVer, float _fHor)
+    {
+
+        fVer = _fVer;
+        fHor = _fHor;
+
+        ChangeState(State.Move, PlayerAni.ANI_WALK);
+
+
+    }
+
+    void MoveStop()
+    {
+        if (currentState == State.Move &&
+            fVer == 0 &&
+            fHor == 0)
+        {
+            ChangeState(State.Idle, PlayerAni.ANI_IDLE);
+        }
+    }
     void JumpState()
     {
         // 공격 애니메이션이 최소한 실행은 됬는가?
@@ -118,102 +248,11 @@ public class PlayerFSM : MonoBehaviour
     {
         ChangeState(State.Jump, PlayerAni.ANI_JUMP);
     }
-
-    public void Attack(int SkillNum)
-    {
-        // 임시로 하드코딩해서 사용
-        // CoolTimeTimer가 2보다 클 때만 공격 모션이 나감
-
-        if (GameManager.GetInstance.curTarget != null && GameManager.GetInstance.curTarget.tag == "Enemy")
-        {
-            return;
-        }
-
-        curTargetPos = GameManager.GetInstance.curTarget.transform.position;
-
-        if (CoolTimeTimer > GlobalCoolTime)
-        {
-            switch(SkillNum)
-            {
-                case 0:
-                    Debug.DrawLine(curTargetPos, transform.position, Color.yellow,1f);
-                    if (Vector3.Distance(curTargetPos,transform.position) < 1.5f)
-                    {
-                        curSkillNum = SkillNum;
-                        ChangeState(State.AttackBlend, PlayerAni.ANI_ATTACKBLEND);
-                        CoolTimeTimer = 0f;
-                    }
-                    else
-                    {
-                        Debug.Log("거리가 너무 멉니다!!");
-                    }
-                    break;
-                case 1:
-                    curSkillNum = SkillNum;
-                    ChangeState(State.AttackBlend, PlayerAni.ANI_ATTACKBLEND);
-                    CoolTimeTimer = 0f;
-                    break;
-                default:
-                    break;
-            }
-
-            
-        }
-    }
-
-    void AttackState()
-    {
-        // 공격 애니메이션이 최소한 실행은 됬는가?
-        if(myAni.AttackToAttakWait())
-        {
-            ChangeState(State.AttackWait, PlayerAni.ANI_ATKIDLE);
-            AttackWaitEndTime = 2f;
-        }
-    }
-
-    void AttackWait()
-    {
-        AttackWaitEndTime -= Time.deltaTime;
-        if(AttackWaitEndTime < 0)
-        {
-            ChangeState(State.Idle, PlayerAni.ANI_IDLE);
-        }
-    }
-
-    void MoveState()
-    {
-        MoveStop();
-
-        fVer = 0f;
-        fHor = 0f;
-    }
-
-    public void MoveTo(float _fVer, float _fHor)
-    {
-        
-        fVer = _fVer;
-        fHor = _fHor;
-
-        ChangeState(State.Move, PlayerAni.ANI_WALK);
+    #endregion
 
 
-    }
 
-    void MoveStop()
-    {
-        if (currentState == State.Move &&
-            fVer == 0 &&
-            fHor == 0) 
-        {
-            ChangeState(State.Idle, PlayerAni.ANI_IDLE);
-        }
-    }
 
     
-
-    private void Update()
-    {
-        UpdateState();
-    }
 
 }

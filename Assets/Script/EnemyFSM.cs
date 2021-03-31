@@ -20,6 +20,8 @@ public class EnemyFSM : MonoBehaviour
 
     Transform player;
 
+    public ParticleSystem hitEffect;
+
     float chaseDistacne = 5f;
     float attackDistance = 2.5f;
     float reChaseDistance = 3f;
@@ -40,6 +42,7 @@ public class EnemyFSM : MonoBehaviour
     void Start()
     {
         ChangeState(State.Idle, EnemyAni.IDLE);
+        hitEffect.Stop();
     }
 
     // Update is called once per frame
@@ -134,6 +137,12 @@ public class EnemyFSM : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, player.position);
         return distance;
+    }
+
+    public void ShowHitEffect()
+    {
+        hitEffect.Play();
+        Debug.Log("play됨");
     }
 
 }
