@@ -39,6 +39,8 @@ public class PlayerAni : MonoBehaviour
 
     public bool JumpToIdle()
     {
+        
+
         return anim.GetCurrentAnimatorStateInfo(0).IsName("jump") &&
             0.1f < anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
