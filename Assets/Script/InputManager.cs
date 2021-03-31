@@ -119,18 +119,18 @@ public class InputManager : MonoBehaviour
         if (fHor != 0 || fVer != 0)
             moveDir = lookForward * fVer + lookRight * fHor;
 
-            // runMode
-            // 달릴 때는 앞뒤좌우로 다 이동 가능함!!
+        // runMode
+        // 달릴 때는 앞뒤좌우로 다 이동 가능함!!
 
-            Vector3 runMode = moveDir.normalized;
-
+        //Vector3 runMode = moveDir.normalized;
+        //temp.forward = runMode;
 
         //walkMode
         //걸을 때는 앞으로만 걸을 수 있음
         // 옆, 뒤는 다른 모션으로 모션을 다르게할 거임
-        //temp.forward = lookForward;
+        temp.forward = lookForward;
 
-        temp.forward = runMode;
+        
 
         if (fHor != 0 || fVer != 0)
         {
@@ -160,6 +160,15 @@ public class InputManager : MonoBehaviour
         {
 
             EnterMouseMode();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if(GameManager.GetInstance.MoveMode == 0)
+                GameManager.GetInstance.MoveMode = 1;
+            else
+                GameManager.GetInstance.MoveMode = 0;
+
         }
 
         /*

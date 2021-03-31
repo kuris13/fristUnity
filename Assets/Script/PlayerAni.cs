@@ -24,13 +24,18 @@ public class PlayerAni : MonoBehaviour
         anim.SetInteger("aniName", aniNum);
     }
 
-    public void ChangeAni(int aniNum, float Blend)
+    public void ChangeAniAttack(int aniNum, float Blend)
     {
         anim.SetInteger("aniName", aniNum);
         anim.SetFloat("Blend", Blend);
     }
+    public void ChangeAniMove(float fHor, float fVer)
+    {
+        float offset = 0.5f + GameManager.GetInstance.MoveMode * 0.5f;
+        anim.SetFloat("Horizontal", fHor * offset);
+        anim.SetFloat("Vertical", fVer * offset);
+    }
 
-    
     public bool AttackToAttakWait()
     {
         return anim.GetCurrentAnimatorStateInfo(0).IsName("attackB") &&

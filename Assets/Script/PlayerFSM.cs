@@ -82,9 +82,14 @@ public class PlayerFSM : MonoBehaviour
 
     void ChangeState(State newState, int aniNum)
     {
-        if(newState == State.AttackBlend)
+        if(newState == State.Move)
         {
-            myAni.ChangeAni(aniNum,curSkillNum);
+            myAni.ChangeAniMove(fHor,fVer);
+            currentState = newState;
+        }
+        if (newState == State.AttackBlend)
+        {
+            myAni.ChangeAniAttack(aniNum, curSkillNum);
             currentState = newState;
         }
         else
