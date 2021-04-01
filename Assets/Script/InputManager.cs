@@ -16,9 +16,11 @@ public class InputManager : MonoBehaviour
 
     Vector3 moveDir;
 
+    public PlayerFSM playerFSM;
 
     private void Start()
     {
+        playerFSM = GetComponent<PlayerFSM>();
         Speed = 2f;
         moveDir = new Vector3(
                 cameraCenter.forward.x,
@@ -34,7 +36,7 @@ public class InputManager : MonoBehaviour
             
             
         }
-        LookAround();
+        //LookAround();
         
         KeyboardInput();
         MouseInput();
@@ -85,14 +87,16 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GetComponent<PlayerFSM>().Attack(0);
+            playerFSM.Shot();
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if(Input.GetMouseButtonUp(0))
         {
-            GetComponent<PlayerFSM>().Attack(1);
+            playerFSM.ShotStop();
         }
-
-
+        if (Input.GetMouseButtonDown(1))
+        {
+            playerFSM.Grenade();
+        }
 
 
     }
@@ -113,9 +117,6 @@ public class InputManager : MonoBehaviour
             0f,
             cameraCenter.right.z).normalized;
 
-        
-        
-
         if (fHor != 0 || fVer != 0)
             moveDir = lookForward * fVer + lookRight * fHor;
 
@@ -128,26 +129,20 @@ public class InputManager : MonoBehaviour
         //walkMode
         //걸을 때는 앞으로만 걸을 수 있음
         // 옆, 뒤는 다른 모션으로 모션을 다르게할 거임
-        temp.forward = lookForward;
+        //temp.forward = lookForward;
 
         
 
         if (fHor != 0 || fVer != 0)
         {
-            GetComponent<PlayerFSM>().MoveTo(fVer,fHor);
+            playerFSM.MoveTo(fVer,fHor);
 
             transform.position += moveDir * Time.deltaTime * 5f;
         }
-            
-
-            
-        
-        
-            //GetComponent<PlayerFSM>().TurnTo(fHor);
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            GetComponent<PlayerFSM>().Jump();
+            //playerFSM.Jump();
         }
 
         if(Input.GetKeyDown(KeyCode.LeftCommand))
@@ -171,25 +166,11 @@ public class InputManager : MonoBehaviour
 
         }
 
-        /*
-        //손을 누르거나 땟을 때
-        if (fVer < 1f && fVer > -1f && fVer != 0f)
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            //내가 이미 움직이는 중이 아니라면 -> 바로 무브시켜야함
-            if(!GetComponent<PlayerFSM>().IsMove())
-                GetComponent<PlayerFSM>().MoveTo(fVer);
-            //움직이는 중이라면 -> 무브 시키지 말아야함 
-            else if(GetComponent<PlayerFSM>().IsMove())
-            {
-                GetComponent<PlayerFSM>().MoveStop();
-            }
+            playerFSM.Reload();
         }
 
-       if(fVer == 1f || fVer == -1f)
-        {
-            GetComponent<PlayerFSM>().MoveTo(fVer);
-        }
-        */
     }
 
 

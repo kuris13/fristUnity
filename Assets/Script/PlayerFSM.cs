@@ -8,7 +8,7 @@ public class PlayerFSM : MonoBehaviour
     {
         Idle,
         Move,
-        AttackBlend,
+        Attack,
         AttackWait,
         Dead,
         Jump
@@ -22,6 +22,8 @@ public class PlayerFSM : MonoBehaviour
 
     Vector3 curTargetPos;
 
+    public GameObject BulletPrefab;
+    public Transform BulletTransform;
     public float moveSpeed = 2f;
 
     public float fHor;
@@ -35,7 +37,9 @@ public class PlayerFSM : MonoBehaviour
 
     public int currentAtkNum;
 
-    public float curSkillNum;
+    public int SkillNum;
+
+
 
     #endregion
 
@@ -50,8 +54,6 @@ public class PlayerFSM : MonoBehaviour
         UpdateState();
     }
 
-
-
     // Update is called once per frame
     void UpdateState()
     {
@@ -64,7 +66,7 @@ public class PlayerFSM : MonoBehaviour
             case State.Move:
                 MoveState();
                 break;
-            case State.AttackBlend:
+            case State.Attack:
                 AttackState();
                 break;
             case State.AttackWait:
@@ -87,10 +89,10 @@ public class PlayerFSM : MonoBehaviour
             myAni.ChangeAniMove(fHor,fVer);
             currentState = newState;
         }
-        if (newState == State.AttackBlend)
+        if (newState == State.Attack)
         {
-            myAni.ChangeAniAttack(aniNum, curSkillNum);
-            currentState = newState;
+           // myAni.ChangeAniAttack(aniNum,SkillNum);
+           // currentState = newState;
         }
         else
         {
@@ -102,8 +104,10 @@ public class PlayerFSM : MonoBehaviour
         }
     }
 
-    #region Attack
+    #region AttackAutoTargeting
 
+    //  오토 타겟팅 공격 ( 사용 X )
+    /*
     //애니메이션의 이벤트로 추가될 함수
     //몬스터에게 공격을 가한다
     public void AttackCalculate()
@@ -199,8 +203,47 @@ public class PlayerFSM : MonoBehaviour
             ChangeState(State.Idle, PlayerAni.ANI_IDLE);
         }
     }
+     */
     #endregion
+    
+    public void Shot()
+    {
+        myAni.ChangeAniShot(true);
+        GameObject Bullet = Instantiate(
+            BulletPrefab,
+            BulletTransform.position,
+            BulletTransform.rotation
+            );
 
+        Rigidbody BulletRigid = Bullet.GetComponent<Rigidbody>();
+        BulletRigid.AddForce(BulletTransform.transform.forward * 1000f);
+
+    }
+
+    public void ShotStop()
+    {
+        myAni.ChangeAniShot(false);
+    }
+
+    public void Grenade()
+    {
+        myAni.ChangeAniGrenade();
+    }
+
+    public void Reload()
+    {
+        myAni.ChangeAniReload();
+    }
+
+    void AttackState()
+    {
+
+    }
+
+    void AttackWait()
+    {
+
+    }
 
     #region MoveAndJump
     public bool IsMove()
@@ -249,10 +292,7 @@ public class PlayerFSM : MonoBehaviour
                 ChangeState(State.Idle, PlayerAni.ANI_IDLE);
         }
     }
-    public void Jump()
-    {
-        ChangeState(State.Jump, PlayerAni.ANI_JUMP);
-    }
+    
     #endregion
 
 
