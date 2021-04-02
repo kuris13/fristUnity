@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public float fHor;
+    float fHor;
 
     public float Speed;
 
@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviour
 
     Vector3 moveDir;
 
-    public PlayerFSM playerFSM;
+    private PlayerFSM playerFSM;
 
     private void Start()
     {
@@ -38,10 +38,10 @@ public class InputManager : MonoBehaviour
         }
 
         
-        KeyboardInput();
-        MouseInput();
+       // KeyboardInput();
+      //  MouseInput();
 
-        LookAround();
+       // LookAround();
     }
 
     void LookAround()
@@ -137,7 +137,8 @@ public class InputManager : MonoBehaviour
         //walkMode
         //걸을 때는 앞으로만 걸을 수 있음
         // 옆, 뒤는 다른 모션으로 모션을 다르게할 거임
-        temp.forward = lookForward;
+        if(fVer != 0)
+            temp.forward = lookForward;
 
         
 

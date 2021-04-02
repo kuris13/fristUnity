@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class BulletPointGizmo : MonoBehaviour
 {
+    public Transform BulletPoint;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, 0.01f);
+        Gizmos.DrawSphere(BulletPoint.position, 0.01f);
 
-        Debug.DrawRay(transform.position, transform.forward, Color.yellow);
+        Debug.DrawRay(BulletPoint.position, BulletPoint.forward*100f, Color.yellow);
     }
 }

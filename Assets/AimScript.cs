@@ -22,15 +22,15 @@ public class AimScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spine = anim.GetBoneTransform(HumanBodyBones.Spine);
+        //spine = anim.GetBoneTransform(HumanBodyBones.Spine);
 
     }
 
     private void LateUpdate()
     {
         
-        spine.LookAt(target.position);
-        spine.rotation *= Quaternion.Euler(relativeVec);
+        //spine.LookAt(target.position);
+        //spine.rotation *= Quaternion.Euler(relativeVec);
     }
 
     
