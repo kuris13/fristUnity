@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    public Transform cameraCenter;
-
+    //public Transform cameraCenter;
+    /*
     int EnemyLayerMask;
 
     private float zoomDistance;
@@ -37,9 +37,18 @@ public class CameraControl : MonoBehaviour
         if (zoomDistance > 60f)
             zoomDistance = 60f;
     }
+     */
 
     void StartShake()
     {
         
     }
+
+    private void Update()
+    {
+        //LookAround();
+    }
+
+    
+
 }

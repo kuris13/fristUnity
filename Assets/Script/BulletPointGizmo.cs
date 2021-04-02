@@ -8,5 +8,7 @@ public class BulletPointGizmo : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(transform.position, 0.01f);
+
+        Debug.DrawRay(transform.position, transform.forward, Color.yellow);
     }
 }

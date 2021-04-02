@@ -36,20 +36,26 @@ public class InputManager : MonoBehaviour
             
             
         }
-        //LookAround();
+
         
         KeyboardInput();
         MouseInput();
 
-
+        LookAround();
     }
 
     void LookAround()
     {
+
+
+
         if (GameManager.GetInstance.MouseMode)
         {
+            
+            
             Vector2 mouseDleta = new Vector2(Input.GetAxis("Mouse X"),
                 Input.GetAxis("Mouse Y"));
+            
             Vector3 camAngle = cameraCenter.rotation.eulerAngles;
 
             float x = camAngle.x - mouseDleta.y;
@@ -62,6 +68,7 @@ public class InputManager : MonoBehaviour
 
             cameraCenter.rotation = Quaternion.Euler(x,
                 camAngle.y + mouseDleta.x, camAngle.z);
+            
         }
     }
 
@@ -106,7 +113,7 @@ public class InputManager : MonoBehaviour
 
         fHor = Input.GetAxis("Horizontal");
         float fVer = Input.GetAxis("Vertical");
-
+        
         Vector3 lookForward = new Vector3(
                 cameraCenter.forward.x,
                 0f,
@@ -117,6 +124,7 @@ public class InputManager : MonoBehaviour
             0f,
             cameraCenter.right.z).normalized;
 
+         
         if (fHor != 0 || fVer != 0)
             moveDir = lookForward * fVer + lookRight * fHor;
 
@@ -124,12 +132,12 @@ public class InputManager : MonoBehaviour
         // 달릴 때는 앞뒤좌우로 다 이동 가능함!!
 
         //Vector3 runMode = moveDir.normalized;
-        //temp.forward = runMode;
+        //transform.forward = runMode;
 
         //walkMode
         //걸을 때는 앞으로만 걸을 수 있음
         // 옆, 뒤는 다른 모션으로 모션을 다르게할 거임
-        //temp.forward = lookForward;
+        temp.forward = lookForward;
 
         
 
