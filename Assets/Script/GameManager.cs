@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             return Instance;
         }
     }
-
+    public bool isGameover = false;
     public bool MouseMode = false;
     public GameObject curTarget =null;
     public int MoveMode = 0;

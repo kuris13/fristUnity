@@ -1,20 +1,28 @@
 ﻿<Properties StartupConfiguration="{617AD0BE-C688-82CE-559C-C79232D2FC89}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/PlayerFSM.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/InputManager.cs">
     <Files>
-      <File FileName="Assets/Script/InputManager.cs" Line="142" Column="1" />
-      <File FileName="Assets/Script/CameraControl.cs" Line="9" Column="1" />
-      <File FileName="Assets/AimScript.cs" Line="24" Column="6" />
-      <File FileName="Assets/TargetGizmo.cs" Line="13" Column="1" />
-      <File FileName="Assets/Script/BulletPointGizmo.cs" Line="15" Column="1" />
-      <File FileName="Assets/Script/PlayerFSM.cs" Line="1" Column="1" />
+      <File FileName="Assets/AimScript.cs" Line="22" Column="6" />
+      <File FileName="Assets/Script/InputManager.cs" Line="144" Column="16" />
+      <File FileName="Assets/Script/PlayerFSM.cs" Line="13" Column="14" />
+      <File FileName="Assets/Script/BulletPointGizmo.cs" Line="17" Column="1" />
+      <File FileName="Assets/CameraCenter.cs" Line="13" Column="11" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="TPSGame" expanded="True">
             <Node name="Assets" expanded="True">
+              <Node name="Cinemachine" expanded="True">
+                <Node name="Base" expanded="True">
+                  <Node name="Editor" expanded="True">
+                    <Node name="Windows" expanded="True" />
+                  </Node>
+                </Node>
+                <Node name="Timeline" expanded="True" />
+              </Node>
               <Node name="Script" expanded="True">
-                <Node name="PlayerFSM.cs" selected="True" />
+                <Node name="retrO" expanded="True" />
+                <Node name="InputManager.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -24,7 +32,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="d7a0737c-595a-4eb6-806f-2f7efda18510" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="8c01977e-8097-4f48-a3be-2b4df6f2312a" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

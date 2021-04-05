@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AimScript.cs" />
+    <Compile Include="Assets\CameraCenter.cs" />
     <Compile Include="Assets\Cinemachine\Base\Runtime\Behaviours\CinemachineBlendListCamera.cs" />
     <Compile Include="Assets\Cinemachine\Base\Runtime\Behaviours\CinemachineBrain.cs" />
     <Compile Include="Assets\Cinemachine\Base\Runtime\Behaviours\CinemachineClearShot.cs" />
@@ -118,12 +119,14 @@
     <Compile Include="Assets\Cinemachine\Timeline\CinemachineMixer.cs" />
     <Compile Include="Assets\Cinemachine\Timeline\CinemachineShot.cs" />
     <Compile Include="Assets\Cinemachine\Timeline\CinemachineTrack.cs" />
+    <Compile Include="Assets\Gun.cs" />
     <Compile Include="Assets\Kevin Iglesias\Soldier Animations\RetargetingExamples\Scripts\SoldierIK.cs" />
     <Compile Include="Assets\Kevin Iglesias\Soldier Animations\RetargetingExamples\Scripts\SoldierIKSMB.cs" />
     <Compile Include="Assets\Kevin Iglesias\Soldier Animations\Scripts\JumpScript.cs" />
     <Compile Include="Assets\Kevin Iglesias\Soldier Animations\Scripts\JumpScriptSMB.cs" />
     <Compile Include="Assets\Script\BulletPointGizmo.cs" />
     <Compile Include="Assets\Script\CameraControl.cs" />
+    <Compile Include="Assets\Script\DamageMessage.cs" />
     <Compile Include="Assets\Script\EnemyAni.cs" />
     <Compile Include="Assets\Script\EnemyFSM.cs" />
     <Compile Include="Assets\Script\EnemySpawn.cs" />
@@ -133,6 +136,12 @@
     <Compile Include="Assets\Script\PlayerAni.cs" />
     <Compile Include="Assets\Script\PlayerFSM.cs" />
     <Compile Include="Assets\Script\Test.cs" />
+    <Compile Include="Assets\Script\retrO\IDamageable.cs" />
+    <Compile Include="Assets\Script\retrO\PlayerInput.cs" />
+    <Compile Include="Assets\Script\retrO\PlayerMovement.cs" />
+    <Compile Include="Assets\Script\retrO\PlayerShooter.cs" />
+    <Compile Include="Assets\Script\retrO\UIManager.cs" />
+    <Compile Include="Assets\Script\retrO\Utility.cs" />
     <Compile Include="Assets\TargetGizmo.cs" />
     <Compile Include="Assets\asset\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
     <Compile Include="Assets\asset\Shared\Ramps\Runtime\RampAsset.cs" />

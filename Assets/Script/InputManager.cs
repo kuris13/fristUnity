@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    float fHor;
+    
 
+
+    
+    public float fHor;
+    public float fVer;
     public float Speed;
 
     public Transform cameraCenter;
-    public Transform temp;
+    public Transform body;
 
     public float xSpeed = 220f;
     public float ySpeed = 100f;
@@ -18,41 +22,40 @@ public class InputManager : MonoBehaviour
 
     private PlayerFSM playerFSM;
 
+    public Vector3 lookForward;
+    public Vector3 lookRight;
+
     private void Start()
     {
         playerFSM = GetComponent<PlayerFSM>();
+        
         Speed = 2f;
         moveDir = new Vector3(
                 cameraCenter.forward.x,
                 0f,
                 cameraCenter.forward.z).normalized;
+      
     }
 
     private void Update()
     {
+        
         if (GameManager.GetInstance.MouseMode)
         {
             
             
             
         }
+        LookAround();
+        
+        KeyboardInput();
+        MouseInput();
 
         
-       // KeyboardInput();
-      //  MouseInput();
-
-       // LookAround();
     }
 
     void LookAround()
     {
-
-
-
-        if (GameManager.GetInstance.MouseMode)
-        {
-            
-            
             Vector2 mouseDleta = new Vector2(Input.GetAxis("Mouse X"),
                 Input.GetAxis("Mouse Y"));
             
@@ -66,10 +69,20 @@ public class InputManager : MonoBehaviour
                 x = Mathf.Clamp(x, 335f, 415f);
 
 
-            cameraCenter.rotation = Quaternion.Euler(x,
-                camAngle.y + mouseDleta.x, camAngle.z);
-            
-        }
+            cameraCenter.rotation = Quaternion.Euler(
+                x,
+                camAngle.y + mouseDleta.x,
+                camAngle.z);
+
+        lookForward = new Vector3(
+                cameraCenter.forward.x,
+                0f,
+                cameraCenter.forward.z).normalized;
+
+        lookRight = new Vector3(
+            cameraCenter.right.x,
+            0f,
+            cameraCenter.right.z).normalized;
     }
 
     void EnterMouseMode()
@@ -112,22 +125,8 @@ public class InputManager : MonoBehaviour
     {
 
         fHor = Input.GetAxis("Horizontal");
-        float fVer = Input.GetAxis("Vertical");
+        fVer = Input.GetAxis("Vertical");
         
-        Vector3 lookForward = new Vector3(
-                cameraCenter.forward.x,
-                0f,
-                cameraCenter.forward.z).normalized;
-
-        Vector3 lookRight = new Vector3(
-            cameraCenter.right.x,
-            0f,
-            cameraCenter.right.z).normalized;
-
-         
-        if (fHor != 0 || fVer != 0)
-            moveDir = lookForward * fVer + lookRight * fHor;
-
         // runMode
         // 달릴 때는 앞뒤좌우로 다 이동 가능함!!
 
@@ -137,13 +136,13 @@ public class InputManager : MonoBehaviour
         //walkMode
         //걸을 때는 앞으로만 걸을 수 있음
         // 옆, 뒤는 다른 모션으로 모션을 다르게할 거임
-        if(fVer != 0)
-            temp.forward = lookForward;
-
         
-
         if (fHor != 0 || fVer != 0)
         {
+            moveDir = lookForward * fVer + lookRight * fHor;
+
+            body.forward = lookForward;
+
             playerFSM.MoveTo(fVer,fHor);
 
             transform.position += moveDir * Time.deltaTime * 5f;
