@@ -26,7 +26,6 @@ public class AimScript : MonoBehaviour
 
     private void LateUpdate()
     {
-        
         spine.LookAt(new Vector3(target.position.x, target.position.y, target.position.z)  );
         spine.rotation *= Quaternion.Euler(relativeVec);
     }
