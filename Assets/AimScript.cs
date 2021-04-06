@@ -21,11 +21,11 @@ public class AimScript : MonoBehaviour
     void Start()
     {
         spine = anim.GetBoneTransform(HumanBodyBones.Spine);
-
     }
 
     private void LateUpdate()
     {
+        target = GameManager.GetInstance.AimTarget;
         spine.LookAt(new Vector3(target.position.x, target.position.y, target.position.z)  );
         spine.rotation *= Quaternion.Euler(relativeVec);
     }

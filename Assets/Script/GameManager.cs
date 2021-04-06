@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     public bool MouseMode = false;
     public GameObject curTarget =null;
     public int MoveMode = 0;
+    public Transform AimTarget;
+
+
     private void Awake()
     {
         if(Instance == null)

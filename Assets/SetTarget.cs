@@ -4,32 +4,34 @@ using UnityEngine;
 
 public class SetTarget : MonoBehaviour
 {
-    public Vector3 ScreenCenter;
     Ray ray;
+    public RaycastHit rayHit;
     public Camera camera;
+
+    public float MAX_RAY_DISTANCE = 500.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-       ray = camera.ScreenPointToRay(ScreenCenter);
-
        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        //화면 중앙
-        ScreenCenter = new Vector3(camera.pixelWidth / 2, camera.pixelHeight / 2);
-        
+        ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
-
-        ray.origin = transform.position;
-
-        if (Physics.Raycast(ray.origin, ScreenCenter , out RaycastHit hit, 15f))
+        if(Physics.Raycast(ray, out rayHit, MAX_RAY_DISTANCE))
         {
-            Debug.DrawRay(ray.origin, ScreenCenter, Color.green, 15f);
+            Debug.DrawLine(ray.origin, rayHit.point, Color.green);
+            GameManager.GetInstance.AimTarget.position = rayHit.point;
         }
-
+        else
+        {
+            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+        }
     }
+
+    
+
 }

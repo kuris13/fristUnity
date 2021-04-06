@@ -65,6 +65,7 @@
     <Compile Include="Assets\AimScript.cs" />
     <Compile Include="Assets\CameraCenter.cs" />
     <Compile Include="Assets\CameraLine.cs" />
+    <Compile Include="Assets\CameraTarget.cs" />
     <Compile Include="Assets\Cinemachine\Base\Runtime\Behaviours\CinemachineBlendListCamera.cs" />
     <Compile Include="Assets\Cinemachine\Base\Runtime\Behaviours\CinemachineBrain.cs" />
     <Compile Include="Assets\Cinemachine\Base\Runtime\Behaviours\CinemachineClearShot.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Assets\Script\retrO\UIManager.cs" />
     <Compile Include="Assets\Script\retrO\Utility.cs" />
     <Compile Include="Assets\SetTarget.cs" />
+    <Compile Include="Assets\SpineScript.cs" />
     <Compile Include="Assets\TargetGizmo.cs" />
     <Compile Include="Assets\TargetScript.cs" />
     <Compile Include="Assets\asset\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TargetScript : MonoBehaviour
 {
-    public Transform cameraTransform;
 
 
     private void Awake()
@@ -21,6 +20,6 @@ public class TargetScript : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        //transform.position = cameraTransform.forward * 100f;
+
     }
 }
