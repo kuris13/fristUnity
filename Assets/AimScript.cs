@@ -27,7 +27,7 @@ public class AimScript : MonoBehaviour
     {
         target = GameManager.GetInstance.AimTarget;
         spine.LookAt(new Vector3(target.position.x, target.position.y, target.position.z)  );
-        spine.rotation *= Quaternion.Euler(relativeVec);
+        spine.rotation *= Quaternion.Euler(new Vector3(10f,20f,0f));
     }
 
     

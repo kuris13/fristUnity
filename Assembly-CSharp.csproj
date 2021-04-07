@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Assets\AimScript.cs" />
     <Compile Include="Assets\CameraCenter.cs" />
+    <Compile Include="Assets\CameraCollision.cs" />
     <Compile Include="Assets\CameraLine.cs" />
     <Compile Include="Assets\CameraTarget.cs" />
     <Compile Include="Assets\Cinemachine\Base\Runtime\Behaviours\CinemachineBlendListCamera.cs" />

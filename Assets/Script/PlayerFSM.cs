@@ -208,16 +208,21 @@ public class PlayerFSM : MonoBehaviour
     
     public void Shot()
     {
+        
         myAni.ChangeAniShot(true);
         GameObject Bullet = Instantiate(
             BulletPrefab,
             BulletTransform.position,
-            BulletTransform.rotation
+            Quaternion.Euler(Vector3.zero)
             );
 
         Rigidbody BulletRigid = Bullet.GetComponent<Rigidbody>();
-        BulletRigid.AddForce(BulletTransform.transform.forward * 1000f);
-
+        
+        //BulletRigid.AddForce();
+        //총알이 타겟을 쳐다봄
+        Bullet.transform.LookAt(GameManager.GetInstance.AimTarget);
+        Bullet.transform.rotation *= Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        BulletRigid.AddForce(Bullet.transform.forward * 1000f);
     }
 
     public void ShotStop()
