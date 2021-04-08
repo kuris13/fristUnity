@@ -6,7 +6,7 @@ public class SetTarget : MonoBehaviour
 {
     Ray ray;
     public RaycastHit rayHit;
-    public Camera camera;
+    public Camera cameraM;
 
     public float MAX_RAY_DISTANCE = 500.0f;
     int layerMask;
@@ -19,7 +19,7 @@ public class SetTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        ray = cameraM.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
         if(Physics.Raycast(ray, out rayHit, MAX_RAY_DISTANCE,layerMask))
         {

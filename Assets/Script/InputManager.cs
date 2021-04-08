@@ -39,7 +39,8 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        
+        //transform.position = body.transform.position;
+
         if (GameManager.GetInstance.MouseMode)
         {
             
